@@ -22,8 +22,6 @@ userName = st.text_input("Enter user name: ")
 
 
 
-
-
 lines = []
 
 if log_file is not None:
@@ -31,6 +29,21 @@ if log_file is not None:
     for line in log_file:
         lines.append(line)
 
+    # # To convert to a string based IO:
+    # stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+    # st.write(stringio)
+
+    # To read file as string:
+    
+    # st.write(string_data)
+
+    # Can be used wherever a "file-like" object is accepted:
+    # dataframe = pd.read_(uploaded_file)
+    # st.write(dataframe)
+    # data = json.loads(bytes_data)
+    # st.write(data)
+
+    # st.table(data)
 
 roomdetailsDict = {}
 userNameRoomList = []
@@ -92,162 +105,150 @@ strikerResponseTimeDict = {}
 keeperResponseTimeDict = {}
 nextSwitchTurnTimeDict = {}
 timeoutTimeDict = {}
-appPausedTimeDict = {}
 gameEndDict = {}
 turnCountDict = {}
 userGoneHandlerDict = {}
 appPauseFlag = {}
 stuckGames = {}
 
-switchtime = ""
 
 
 basetime = "00:00:08,500"
 timeDelta =  datetime.strptime(basetime, "%H:%M:%S,%f") - datetime.strptime("00:00:00,100", "%H:%M:%S,%f")
-for turnCount in range(1, 3): 
-    turnCount = str(turnCount)
-    switchtime = ""
-    turnCountFlag = {}
-    prev_line = None
-    for line in lines:
-        line = line.decode()
-        roomName = ""
-        if "SFS_PlayerId: 1" in line and "Request Message: ready" in line:
-            roomName = line.split("Room_name: ", 1)[1].split(";")[0]
-            if roomName not in roomNamesList:
-                roomNamesList.append(roomName)
-            appPauseFlag[roomName] = False
-            if turnCount == '1':
-                turnCountFlag[roomName] = True
+prev_line = None
+for line in lines:
+    line = line.decode()
+    roomName = ""
+    if "SFS_PlayerId: 1" in line and "Request Message: ready" in line:
+        roomName = line.split("Room_name: ", 1)[1].split(";")[0]
+        if roomName not in roomNamesList:
+            roomNamesList.append(roomName)
 
-        if ("SFS_PlayerId: 1" in line or "SFS_PlayerId: 2" in line) and "Response Message: switch_turn" in line and "Turn_count: " + turnCount + ";" in line:
-            roomName = line.split("Room_name: ", 1)[1].split(";")[0]
-            switchtime = line.split(" | ")[1]
-            switchTurnTimeDict[roomName] = switchtime
-            
-            turnCountFlag[roomName] = True
+    if ("SFS_PlayerId: 1" in line or "SFS_PlayerId: 2" in line) and "Response Message: switch_turn" in line:
+        roomName = line.split("Room_name: ", 1)[1].split(";")[0]
+        time = line.split(" | ")[1]
+        turnCount = line.split("Turn_count: ", 1)[1].split(";")[0]
+        if roomName not in switchTurnTimeDict:
+            switchTurnTimeDict[roomName] = {}
+        switchTurnTimeDict[roomName].update({turnCount: time})
         
-        if ("SFS_PlayerId: 1" in line or "SFS_PlayerId: 2" in line) and "Response Message: striker_response" in line and "Turn_count: " + turnCount + ";" in line:
-            roomName = line.split("Room_name: ", 1)[1].split(";")[0]
-            time = line.split(" | ")[1]
-            strikerResponseTimeDict[roomName] = time
-            turnCountFlag[roomName] = True
-
-        if ("SFS_PlayerId: 1" in line or "SFS_PlayerId: 2" in line) and "Response Message: keeper_response" in line and "Turn_count: " + turnCount + ";" in line:
-            roomName = line.split("Room_name: ", 1)[1].split(";")[0]
-            time = line.split(" | ")[1]
-            keeperResponseTimeDict[roomName] = time
-            turnCountFlag[roomName] = True
-
-
-        if ("SFS_PlayerId: 1" in line or "SFS_PlayerId: 2" in line) and "Response Message: switch_turn" in line and "Turn_count: " + str(int(turnCount) + 1) + ";" in line:
-            roomName = line.split("Room_name: ", 1)[1].split(";")[0]
-            time = line.split(" | ")[1]
-            nextSwitchTurnTimeDict[roomName] = time
-            turnCountFlag[roomName] = True
-
-        if ("SFS_PlayerId: 1" in line or "SFS_PlayerId: 2" in line)  and "Response Message: timeout" in line and "Turn_count: " + turnCount + ";" in line:
-            roomName = line.split("Room_name: ", 1)[1].split(";")[0]
-            time = line.split(" | ")[1]
-            timeoutTimeDict[roomName] = time
-            turnCountFlag[roomName] = True
-
-        if "Request Message: app_paused" in line and "Turn_count: " + turnCount + ";" in line:
-            roomName = line.split("Room_name: ", 1)[1].split(";")[0]
-            time = line.split(" | ")[1]
-            appPauseFlag[roomName] = True
-            turnCountFlag[roomName] = True
-
     
-        if "Response Message: sync_time" in line and "Turn_count: " + turnCount + ";" in line:
-            roomName = line.split("Room_name: ", 1)[1].split(";")[0]
-            time = line.split(" | ")[1]
-            appPauseFlag[roomName] = False
-            turnCountFlag[roomName] = True
-        
+    if ("SFS_PlayerId: 1" in line or "SFS_PlayerId: 2" in line) and "Response Message: striker_response" in line:
+        roomName = line.split("Room_name: ", 1)[1].split(";")[0]
+        time = line.split(" | ")[1]
+        turnCount = line.split("Turn_count: ", 1)[1].split(";")[0]
+        if roomName not in strikerResponseTimeDict:
+            strikerResponseTimeDict[roomName] = {}
+        strikerResponseTimeDict[roomName].update({turnCount: time})
 
-        if "Winner_player_ID" in line: 
-            roomName = line.split("Room_name: ", 1)[1].split(";")[0]
-            # time = line.split(" | ")[1]
-
-            # time = datetime.strptime(time, "%H:%M:%S,%f")
-            # if switchtime != "" and type(switchtime) == str:
-            #     switchtime = datetime.strptime(switchtime, "%H:%M:%S,%f")
-
-            
-            # if switchtime != "" and time - switchtime < timeDelta:
-            gameEndDict[roomName] = True
-            # else:
-            #     gameEndDict[roomName] = False
-
-        if "Turn_count: -1; Request Message: On User gone" in line:
-            roomName = line.split("Room_name: ", 1)[1].split(";")[0]
-            userGoneHandlerDict[roomName] = True
-            time = line.split(" | ")[1]
-            time = datetime.strptime(time, "%H:%M:%S,%f")
-
-            prev_line = None
-            for i in range(1, len(roomdetailsDict[roomName])):
-                if "bot " in roomdetailsDict[roomName][i]:
-                    break
-                if "Turn_count: -1; Request Message: On User gone" in roomdetailsDict[roomName][i]:
-                    prev_line = roomdetailsDict[roomName][i-1]
-
-            if prev_line:
-                prevTime = prev_line.split(" | ")[1]
-                prevTime = datetime.strptime(prevTime, "%H:%M:%S,%f")
-
-                # print(line, "prev line: ", prev_line)
-                # print(time, " prevTime: ",  prevTime)
-                if time - prevTime > timeDelta :
-                    stuckGames[roomName] = True
+    if ("SFS_PlayerId: 1" in line or "SFS_PlayerId: 2" in line) and "Response Message: keeper_response" in line:
+        roomName = line.split("Room_name: ", 1)[1].split(";")[0]
+        time = line.split(" | ")[1]
+        turnCount = line.split("Turn_count: ", 1)[1].split(";")[0]
+        # print(turnCount)
+        if roomName not in keeperResponseTimeDict:
+            keeperResponseTimeDict[roomName] = {}
+        keeperResponseTimeDict[roomName].update({turnCount : time})
 
 
-        if roomName in appPauseFlag:
-            appPausedTimeDict[roomName] = appPauseFlag[roomName]
-        
-        
+    if ("SFS_PlayerId: 1" in line or "SFS_PlayerId: 2" in line) and "Response Message: switch_turn" in line:
+        roomName = line.split("Room_name: ", 1)[1].split(";")[0]
+        time = line.split(" | ")[1]
+        turnCount = line.split("Turn_count: ", 1)[1].split(";")[0]
+        turnCount = str(int(turnCount) - 1)
+        if roomName not in nextSwitchTurnTimeDict:
+            nextSwitchTurnTimeDict[roomName] = {}
+        nextSwitchTurnTimeDict[roomName].update({turnCount: time})
 
-    timeDelayDict = {}
+
+    if ("SFS_PlayerId: 1" in line or "SFS_PlayerId: 2" in line)  and "Response Message: timeout" in line:
+        roomName = line.split("Room_name: ", 1)[1].split(";")[0]
+        time = line.split(" | ")[1]
+        turnCount = line.split("Turn_count: ", 1)[1].split(";")[0]
+        if roomName not in timeoutTimeDict:
+            timeoutTimeDict[roomName] = {}
+        timeoutTimeDict[roomName].update({turnCount : time})
 
 
+    if "Request Message: app_paused" in line:
+        roomName = line.split("Room_name: ", 1)[1].split(";")[0]
+        time = line.split(" | ")[1]
+        turnCount = line.split("Turn_count: ", 1)[1].split(";")[0]
+        if roomName not in appPauseFlag:
+            appPauseFlag[roomName] = {}
+        appPauseFlag[roomName].update({turnCount: True})
+
+
+    if "Response Message: sync_time" in line:
+        roomName = line.split("Room_name: ", 1)[1].split(";")[0]
+        time = line.split(" | ")[1]
+        turnCount = line.split("Turn_count: ", 1)[1].split(";")[0]
+        if roomName not in appPauseFlag:
+            appPauseFlag[roomName] = {}
+        appPauseFlag[roomName].update({turnCount: False})
+    
+
+    if "Winner_player_ID" in line: 
+        roomName = line.split("Room_name: ", 1)[1].split(";")[0]
+        gameEndDict[roomName] = True
+
+    if "Turn_count: -1; Request Message: On User gone" in line:
+        roomName = line.split("Room_name: ", 1)[1].split(";")[0]
+        userGoneHandlerDict[roomName] = True
+        time = line.split(" | ")[1]
+        time = datetime.strptime(time, "%H:%M:%S,%f")
+
+        prev_line = None
+        for i in range(1, len(roomdetailsDict[roomName])):
+            if "bot " in roomdetailsDict[roomName][i]:
+                break
+            if "Turn_count: -1; Request Message: On User gone" in roomdetailsDict[roomName][i]:
+                prev_line = roomdetailsDict[roomName][i-1]
+
+        if prev_line:
+            prevTime = prev_line.split(" | ")[1]
+            prevTime = datetime.strptime(prevTime, "%H:%M:%S,%f")
+            if time - prevTime > timeDelta :
+                stuckGames[roomName] = True
+    
+    
+
+
+for turnCount in range(1, 11):
+    turnCount = str(turnCount)
+    timeDelayDict = {}  
     for roomName in roomNamesList:
-
-        if roomName in switchTurnTimeDict:
-            switchTime = datetime.strptime(switchTurnTimeDict[roomName], "%H:%M:%S,%f")
+        if roomName in switchTurnTimeDict and turnCount in switchTurnTimeDict[roomName]:
+            switchTime = datetime.strptime(switchTurnTimeDict[roomName][turnCount], "%H:%M:%S,%f")
         else:
             switchTime = -1
         
-        if roomName in strikerResponseTimeDict:
-            strikerTime = datetime.strptime(strikerResponseTimeDict[roomName], "%H:%M:%S,%f")
+        if roomName in strikerResponseTimeDict and turnCount in strikerResponseTimeDict[roomName]:
+            strikerTime = datetime.strptime(strikerResponseTimeDict[roomName][turnCount], "%H:%M:%S,%f")
         else:
             strikerTime = -1
 
-        if roomName in keeperResponseTimeDict:
-            keeperTime = datetime.strptime(keeperResponseTimeDict[roomName], "%H:%M:%S,%f")
+        if roomName in keeperResponseTimeDict and turnCount in keeperResponseTimeDict[roomName]:
+            keeperTime = datetime.strptime(keeperResponseTimeDict[roomName][turnCount], "%H:%M:%S,%f")
         else:
             keeperTime = -1
 
-        if roomName in nextSwitchTurnTimeDict:
-            nextSwitchTime = datetime.strptime(nextSwitchTurnTimeDict[roomName], "%H:%M:%S,%f")
+        if roomName in nextSwitchTurnTimeDict and turnCount in nextSwitchTurnTimeDict[roomName]:
+            nextSwitchTime = datetime.strptime(nextSwitchTurnTimeDict[roomName][turnCount], "%H:%M:%S,%f")
         else:
             nextSwitchTime = -1
 
-        if roomName in timeoutTimeDict:
-            timeoutTime = datetime.strptime(timeoutTimeDict[roomName], "%H:%M:%S,%f")
+        if roomName in timeoutTimeDict and turnCount in timeoutTimeDict[roomName]:
+            timeoutTime = datetime.strptime(timeoutTimeDict[roomName][turnCount], "%H:%M:%S,%f")
         else:
             timeoutTime = -1
-        
-        # print("FOR ROOM " + roomName)
-        if strikerTime != -1 and switchTime != -1: 
-            # print("Delay in striker respone and switch turn: ", strikerTime - switchTime)
-            timeDelayDict[roomName] = {"strikerDelay" : strikerTime - switchTime}
 
+        if strikerTime != -1 and switchTime != -1: 
+            timeDelayDict[roomName] = {"strikerDelay" : strikerTime - switchTime}
         else:
             timeDelayDict[roomName] = {"strikerDelay" : "--"}
         
         if strikerTime != -1 and keeperTime != -1: 
-            # print("Delay in keeper response and striker response: ", keeperTime - strikerTime)
             timeDelayDict[roomName].update({"keeperDelay" : keeperTime - strikerTime})
         else: 
             timeDelayDict[roomName].update({"keeperDelay" : "--"})
@@ -262,20 +263,20 @@ for turnCount in range(1, 3):
         else:
             timeDelayDict[roomName].update({"timeOutDelay" : "--"})
 
-        if roomName in appPausedTimeDict:
-            timeDelayDict[roomName].update({"appPaused" : appPausedTimeDict[roomName]})
+        if roomName in appPauseFlag and turnCount in appPauseFlag[roomName]:
+            timeDelayDict[roomName].update({"appPaused" : appPauseFlag[roomName][turnCount]})
         else:
             timeDelayDict[roomName].update({"appPaused" : False})
         
+        if switchTime == -1 and strikerTime == -1 and keeperTime == -1 and nextSwitchTime == -1 and timeoutTime == -1:
+            timeDelayDict[roomName].update({"turnCount" : False})
+        else:
+            timeDelayDict[roomName].update({"turnCount" : True})
+
         if roomName in gameEndDict:
             timeDelayDict[roomName].update({"gameEnd" : gameEndDict[roomName]})
         else:
             timeDelayDict[roomName].update({"gameEnd" : False})
-
-        if roomName in turnCountFlag:
-            timeDelayDict[roomName].update({"turnCount" : True})
-        else:
-            timeDelayDict[roomName].update({"turnCount" : False})
 
         if roomName in userGoneHandlerDict:
             timeDelayDict[roomName].update({"userGone" : True})
@@ -292,7 +293,7 @@ for turnCount in range(1, 3):
 
     # print("==========================")
 
-# print(timeDelayDict)
+
 checkIndexStriker = 0
 totalIndexStiker = 0
 checkIndexSwitchTurn = 0
@@ -310,7 +311,7 @@ totalGames = 0
 
 for turnCount in turnCountDict: 
     df = pd.DataFrame.from_dict(turnCountDict[turnCount]).transpose()
-    timeoutIndex = len(df[(df["strikerDelay"] == "--") & (df["timeOutDelay"] == "--") & df["turnCount"] == True])
+    timeoutIndex = len(df[(df["strikerDelay"] == "--") & (df["timeOutDelay"] == "--") & (df["switchTurnDelay"] == "--") & (df["turnCount"] == True) & (df["userGone"] == False)])
     totalGames = len(df)
     timeoutIndexList.append(timeoutIndex)
     checkIndexTimeout = checkIndexTimeout + timeoutIndex
@@ -324,7 +325,7 @@ for turnCount in turnCountDict:
     m3 = pd.DataFrame(pd.to_timedelta(m3["switchTurnDelay"]))
 
 
-    timeDelta = pd.Timedelta(seconds=8, microseconds=500)
+    timeDelta = pd.Timedelta(seconds=10, microseconds=500)
     strikerIndex = len(m1[m1["strikerDelay"] > timeDelta])
     strikerIndexList.append(strikerIndex)
     checkIndexStriker = strikerIndex +  len(m1[m1["strikerDelay"] > timeDelta])
@@ -336,34 +337,52 @@ for turnCount in turnCountDict:
     totalIndexSwitchTurn = len(m3["switchTurnDelay"])
 
 
-# turnCountList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-turnCountList = [1, 2]
-
-
-
+turnCountList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# turnCountList = [1]
 serverHealthPercent = 100 - ((checkIndexStriker + checkIndexSwitchTurn + checkIndexTimeout)/(totalIndexStiker + totalIndexSwitchTurn + totalIndexTimeout) *  100)
 
 st.title("Server Health: " + str(serverHealthPercent) + "%")
 
-st.write("Percentage of games with no striker and keeper response and no timeout: " , timeoutIndexList[0]/totalGames * 100)
+
+
+
+st.write(" Possible Events ")
+
+# userGonePercent = len(userGoneHandlerDict)/len(roomNamesList) *  100
+# st.write("Percentage of games ended by user gone : " , userGonePercent)
+
+df = pd.DataFrame.from_dict(turnCountDict['1']).transpose()
+TotalGames = len(df)
+userGoneGames = len(df[df["userGone"] == True])
+stuckGames = len(df[df["stuckGame"] == True])
+notEndGames = len(df[df["gameEnd"] == False])
+
+columnName = ["User Gone Games", "Stuck Games", "Not Ended Games"]
+value = [userGoneGames, stuckGames, notEndGames]
+
+chart_data = pd.DataFrame({'index' : columnName, 'number of games' : value}).set_index('index')
+st.bar_chart(chart_data)
+
+st.write(chart_data)
+
+st.write("User gone games")
+st.write(df[df["userGone"] == True])
+
+st.write("stuck games")
+st.write(df[df["stuckGame"] == True])
+
+
+st.write("Percentage of games with no striker and keeper response and no timeout: " , checkIndexTimeout/totalIndexTimeout * 100)
 
 turnCountdf = pd.DataFrame(timeoutIndexList, index = turnCountList)
 st.line_chart(turnCountdf)
-
-# print(len(roomNamesList))
-# print(len(userGoneHandlerDict))
-st.write(" User gone handler event ")
-
-userGonePercent = len(userGoneHandlerDict)/len(roomNamesList) *  100
-st.write("Percentage of games ended by user gone : " , userGonePercent)
-
 
 turnCount = st.text_input("Enter Turn Count: ", value="1")
 
 if turnCount in turnCountDict: 
     df = pd.DataFrame.from_dict(turnCountDict[turnCount]).transpose()
         # df = pd.to_timedelta(df["strikerDelay"])
-    st.table(df[(df["strikerDelay"] == "--") & (df["timeOutDelay"] == "--") & df["turnCount"] == True])
+    st.write(df[(df["strikerDelay"] == "--") & (df["timeOutDelay"] == "--") & (df["switchTurnDelay"] == "--") & (df["turnCount"] == True) & (df["userGone"] == False)])
     m1 = df[df["strikerDelay"] != "--"]
     m2 = df[df["keeperDelay"] != "--" ]
     m3 = df[df["switchTurnDelay"] != "--"]
@@ -380,6 +399,8 @@ if turnCount in turnCountDict:
     st.write("Total games: ", len(df))
 
     st.write("Percentage of stuck games: " , len(df[df["stuckGame"] == True]) / len(df) * 100)
+
+    st.write("Full Data for this turn Count")
     st.dataframe(df)
 else:
     st.write("Displaying data only for turn count <= 10")
