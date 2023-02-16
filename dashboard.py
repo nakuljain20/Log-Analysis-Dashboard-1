@@ -13,12 +13,11 @@ st.title("Server Log Analysis")
 
 
 
-log_file = st.file_uploader("Upload a file", accept_multiple_files=False, d)
+log_file = st.file_uploader("Upload a file", accept_multiple_files=False)
 
-if log_file is None:
-    file = "./Logs/smartfox.log"
-    log_file = open(file, "rb")
-    st.write(file)
+file = "./Logs/smartfox.log"
+log_file = open(file, "rb")
+st.write(file)
 userName = st.text_input("Enter user name: ")
 
 
