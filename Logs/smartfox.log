@@ -1532,3 +1532,8 @@ java.base/java.lang.Thread.run(Thread.java:829)
 16 Feb 2023 | 17:55:23,880 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: { Zone: UIExtension }, CCU: 0/1
 16 Feb 2023 | 17:55:23,880 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: { Zone: BasicExamples }, CCU: 0/0
 16 Feb 2023 | 17:55:23,880 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: CCU: 0/1
+16 Feb 2023 | 18:55:23,879 | INFO  | pool-1-thread-4 | util.stats.CCULoggerTask |     | CCU stats: { Zone: FootballExtension }, CCU: 0/0
+16 Feb 2023 | 18:55:23,880 | INFO  | pool-1-thread-4 | util.stats.CCULoggerTask |     | CCU stats: { Zone: --=={{{ AdminZone }}}==-- }, CCU: 0/0
+16 Feb 2023 | 18:55:23,880 | INFO  | pool-1-thread-4 | util.stats.CCULoggerTask |     | CCU stats: { Zone: UIExtension }, CCU: 0/0
+16 Feb 2023 | 18:55:23,880 | INFO  | pool-1-thread-4 | util.stats.CCULoggerTask |     | CCU stats: { Zone: BasicExamples }, CCU: 0/0
+16 Feb 2023 | 18:55:23,880 | INFO  | pool-1-thread-4 | util.stats.CCULoggerTask |     | CCU stats: CCU: 0/0
