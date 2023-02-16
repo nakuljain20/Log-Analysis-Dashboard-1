@@ -8,7 +8,7 @@ from datetime import datetime
 
 st.set_page_config(layout="wide")
 
-st.title("Data Logger1")
+st.title("Server Log Analysis")
 
 
 
