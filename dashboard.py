@@ -24,21 +24,6 @@ if log_file is not None:
     for line in log_file:
         lines.append(line)
 
-    # # To convert to a string based IO:
-    # stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-    # st.write(stringio)
-
-    # To read file as string:
-    
-    # st.write(string_data)
-
-    # Can be used wherever a "file-like" object is accepted:
-    # dataframe = pd.read_(uploaded_file)
-    # st.write(dataframe)
-    # data = json.loads(bytes_data)
-    # st.write(data)
-
-    # st.table(data)
 
 roomdetailsDict = {}
 userNameRoomList = []
