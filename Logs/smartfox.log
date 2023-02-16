@@ -1495,3 +1495,40 @@ java.base/java.lang.Thread.run(Thread.java:829)
 	java.base/java.lang.Thread.run(Thread.java:829)
 
 16 Feb 2023 | 17:30:25,904 | INFO  | SocketReader | bitswarm.sessions.DefaultSessionManager |     | Session removed: { Id: 247, Type: DEFAULT, Logged: No, IP: 171.76.87.17:31337 }
+16 Feb 2023 | 17:31:54,306 | INFO  | SocketReader | bitswarm.sessions.DefaultSessionManager |     | Session removed: { Id: 246, Type: DEFAULT, Logged: Yes, IP: 171.76.87.17:14268 }
+16 Feb 2023 | 17:31:54,306 | INFO  | SFSWorker:Sys:4 | v2.api.SFSApi |     | User disconnected: { Zone: UIExtension }, ( User Name: Guest#230, Id: 230, Priv: 0, Sess: 171.76.87.17:14268 ) , SessionLen: 123516, Type: Unity / .Net
+16 Feb 2023 | 17:31:54,306 | INFO  | SFSWorker:Ext:1 | Extensions |     | {BackendExtension}: user gone handler called 
+16 Feb 2023 | 17:32:28,260 | INFO  | http-nio-8080-exec-10 | Extensions |     | {BackendExtension}: Himanshu -- inside handleInternalMessage 
+16 Feb 2023 | 17:32:41,516 | INFO  | SocketReader | bitswarm.sessions.DefaultSessionManager |     | Session created: { Id: 248, Type: DEFAULT, Logged: No, IP: 171.76.87.17:29057 } on Server port: 9933 <---> 29057
+16 Feb 2023 | 17:32:41,869 | INFO  | SFSWorker:Sys:1 | v2.api.SFSApi |     | User login: { Zone: UIExtension }, ( User Name: Guest#231, Id: 231, Priv: 0, Sess: 171.76.87.17:29057 ) , Type: Unity / .Net
+16 Feb 2023 | 17:34:06,010 | INFO  | Scheduler1-thread-1 | bitswarm.sessions.DefaultSessionManager |     | Session removed: { Id: 248, Type: DEFAULT, Logged: Yes, IP: 171.76.87.17:29057 }
+16 Feb 2023 | 17:34:06,011 | INFO  | SFSWorker:Sys:3 | v2.api.SFSApi |     | User disconnected: { Zone: UIExtension }, ( User Name: Guest#231, Id: 231, Priv: 0, Sess: 171.76.87.17:29057 ) , SessionLen: 84142, Type: Unity / .Net
+16 Feb 2023 | 17:34:06,011 | INFO  | SFSWorker:Ext:1 | Extensions |     | {BackendExtension}: user gone handler called 
+16 Feb 2023 | 17:34:47,607 | INFO  | http-nio-8080-exec-1 | Extensions |     | {BackendExtension}: Himanshu -- inside handleInternalMessage 
+16 Feb 2023 | 17:35:02,198 | INFO  | SocketReader | bitswarm.sessions.DefaultSessionManager |     | Session created: { Id: 249, Type: DEFAULT, Logged: No, IP: 171.76.87.17:16734 } on Server port: 9933 <---> 16734
+16 Feb 2023 | 17:35:02,556 | INFO  | SFSWorker:Sys:3 | v2.api.SFSApi |     | User login: { Zone: UIExtension }, ( User Name: Guest#232, Id: 232, Priv: 0, Sess: 171.76.87.17:16734 ) , Type: Unity / .Net
+16 Feb 2023 | 17:35:52,421 | INFO  | SocketReader | bitswarm.core.SocketReader |     | Socket closed: java.nio.channels.SocketChannel[closed]
+16 Feb 2023 | 17:36:00,055 | INFO  | Scheduler1-thread-1 | bitswarm.sessions.DefaultSessionManager |     | Session removed: { Id: 249, Type: DEFAULT, Logged: Yes, IP: 171.76.87.17:16734 }
+16 Feb 2023 | 17:36:00,055 | INFO  | SFSWorker:Sys:3 | v2.api.SFSApi |     | User disconnected: { Zone: UIExtension }, ( User Name: Guest#232, Id: 232, Priv: 0, Sess: 171.76.87.17:16734 ) , SessionLen: 57499, Type: Unity / .Net
+16 Feb 2023 | 17:36:00,055 | INFO  | SFSWorker:Ext:3 | Extensions |     | {BackendExtension}: user gone handler called 
+16 Feb 2023 | 17:36:03,558 | INFO  | SocketReader | bitswarm.sessions.DefaultSessionManager |     | Session created: { Id: 250, Type: DEFAULT, Logged: No, IP: 171.76.87.17:31765 } on Server port: 9933 <---> 31765
+16 Feb 2023 | 17:36:03,559 | WARN  | SFSWorker:Sys:1 | controllers.v290.SystemReqController |     | com.smartfoxserver.bitswarm.exceptions.SessionReconnectionException: Session Reconnection failure. The passed Session is not managed by the ReconnectionManager: java.nio.channels.SocketChannel[connected local=/172.31.2.27:9933 remote=/171.76.87.17:31765]
+	com.smartfoxserver.bitswarm.sessions.DefaultReconnectionManager.reconnectSession(DefaultReconnectionManager.java:155)
+	com.smartfoxserver.bitswarm.sessions.DefaultSessionManager.reconnectSession(DefaultSessionManager.java:373)
+	com.smartfoxserver.v2.controllers.system.Handshake.execute(Handshake.java:68)
+	com.smartfoxserver.v2.controllers.v290.SystemReqController.processRequest(SystemReqController.java:191)
+	com.smartfoxserver.v2.controllers.v290.SystemReqController.enqueueRequest(SystemReqController.java:146)
+	com.smartfoxserver.bitswarm.io.protocols.AbstractProtocolCodec.dispatchRequestToController(AbstractProtocolCodec.java:39)
+	com.smartfoxserver.v2.protocol.SFSProtocolCodec.dispatchRequest(SFSProtocolCodec.java:133)
+	com.smartfoxserver.v2.protocol.SFSProtocolCodec.onPacketRead(SFSProtocolCodec.java:90)
+	com.smartfoxserver.v2.protocol.binary.BinaryIoHandler$1.run(BinaryIoHandler.java:477)
+	java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	java.base/java.lang.Thread.run(Thread.java:829)
+
+16 Feb 2023 | 17:36:03,870 | INFO  | SocketReader | bitswarm.sessions.DefaultSessionManager |     | Session removed: { Id: 250, Type: DEFAULT, Logged: No, IP: 171.76.87.17:31765 }
+16 Feb 2023 | 17:55:23,879 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: { Zone: FootballExtension }, CCU: 0/0
+16 Feb 2023 | 17:55:23,880 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: { Zone: --=={{{ AdminZone }}}==-- }, CCU: 0/0
+16 Feb 2023 | 17:55:23,880 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: { Zone: UIExtension }, CCU: 0/1
+16 Feb 2023 | 17:55:23,880 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: { Zone: BasicExamples }, CCU: 0/0
+16 Feb 2023 | 17:55:23,880 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: CCU: 0/1
