@@ -15,7 +15,8 @@ st.title("Server Log Analysis")
 log_file = st.file_uploader("Upload a file", accept_multiple_files=False)
 
 if log_file is None:
-    log_file = open("/Users/nakuljn/Documents/GitHub/Log-Analysis-Dashboard-1/Logs/smartfox.log", "rb")
+    file = "./Logs/smartfox.log"
+    log_file = open(file, "rb")
     st.write(file)
 userName = st.text_input("Enter user name: ")
 
