@@ -10,7 +10,12 @@ st.set_page_config(layout="wide")
 
 st.title("Data Logger")
 
+
+
 log_file = st.file_uploader("Upload a file", accept_multiple_files=False)
+
+if log_file is None:
+    log_file = /Users/nakuljn/Documents/GitHub/Log-Analysis-Dashboard-1/Logs/smartfox.log
 userName = st.text_input("Enter user name: ")
 
 
