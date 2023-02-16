@@ -15,7 +15,9 @@ st.title("Data Logger")
 log_file = st.file_uploader("Upload a file", accept_multiple_files=False)
 
 if log_file is None:
-    log_file = /Users/nakuljn/Documents/GitHub/Log-Analysis-Dashboard-1/Logs/smartfox.log
+    file = "/Users/nakuljn/Documents/GitHub/Log-Analysis-Dashboard-1/Logs/smartfox.log"
+    log_file = open(file, "rb")
+    print(log_file)
 userName = st.text_input("Enter user name: ")
 
 

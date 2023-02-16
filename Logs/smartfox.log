@@ -444,3 +444,8 @@ java.base/java.lang.Thread.run(Thread.java:829)
 16 Feb 2023 | 11:26:24,210 | INFO  | SocketReader | bitswarm.sessions.DefaultSessionManager |     | Session removed: { Id: 174, Type: DEFAULT, Logged: Yes, IP: 203.200.25.244:43426 }
 16 Feb 2023 | 11:26:24,210 | INFO  | SFSWorker:Sys:1 | v2.api.SFSApi |     | User disconnected: { Zone: UIExtension }, ( User Name: Guest#166, Id: 166, Priv: 0, Sess: 203.200.25.244:43426 ) , SessionLen: 126428, Type: Unity / .Net
 16 Feb 2023 | 11:26:24,210 | INFO  | SFSWorker:Ext:2 | Extensions |     | {BackendExtension}: user gone handler called 
+16 Feb 2023 | 11:55:23,879 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: { Zone: FootballExtension }, CCU: 0/0
+16 Feb 2023 | 11:55:23,879 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: { Zone: --=={{{ AdminZone }}}==-- }, CCU: 1/1
+16 Feb 2023 | 11:55:23,879 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: { Zone: UIExtension }, CCU: 0/2
+16 Feb 2023 | 11:55:23,880 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: { Zone: BasicExamples }, CCU: 0/0
+16 Feb 2023 | 11:55:23,880 | INFO  | pool-1-thread-3 | util.stats.CCULoggerTask |     | CCU stats: CCU: 1/3
