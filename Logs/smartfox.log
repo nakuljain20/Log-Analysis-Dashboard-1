@@ -462,3 +462,8 @@ java.base/java.lang.Thread.run(Thread.java:829)
 16 Feb 2023 | 12:02:00,021 | INFO  | SFSWorker:Sys:1 | v2.api.SFSApi |     | User disconnected: { Zone: UIExtension }, ( User Name: Guest#167, Id: 167, Priv: 0, Sess: 203.200.25.244:43540 ) , SessionLen: 31617, Type: Unity / .Net
 16 Feb 2023 | 12:02:00,021 | INFO  | SFSWorker:Ext:1 | Extensions |     | {BackendExtension}: user gone handler called 
 16 Feb 2023 | 12:03:34,384 | INFO  | http-nio-8080-exec-1 | Extensions |     | {BackendExtension}: Himanshu -- inside handleInternalMessage 
+16 Feb 2023 | 12:04:14,061 | INFO  | http-nio-8080-exec-3 | Extensions |     | {BackendExtension}: Himanshu -- inside handleInternalMessage 
+16 Feb 2023 | 12:04:25,285 | INFO  | SocketReader | bitswarm.sessions.DefaultSessionManager |     | Session created: { Id: 178, Type: DEFAULT, Logged: No, IP: 203.200.25.244:33302 } on Server port: 9933 <---> 33302
+16 Feb 2023 | 12:04:25,547 | INFO  | SFSWorker:Sys:4 | v2.api.SFSApi |     | User login: { Zone: UIExtension }, ( User Name: Guest#169, Id: 169, Priv: 0, Sess: 203.200.25.244:33302 ) , Type: Unity / .Net
+16 Feb 2023 | 12:04:26,922 | INFO  | SocketReader | bitswarm.sessions.DefaultSessionManager |     | Session created: { Id: 179, Type: DEFAULT, Logged: No, IP: 203.200.25.244:43560 } on Server port: 9933 <---> 43560
+16 Feb 2023 | 12:04:27,184 | INFO  | SFSWorker:Sys:1 | v2.api.SFSApi |     | User login: { Zone: UIExtension }, ( User Name: Guest#170, Id: 170, Priv: 0, Sess: 203.200.25.244:43560 ) , Type: Unity / .Net
