@@ -13,7 +13,7 @@ st.title("Server Log Analysis")
 
 
 
-log_file = st.file_uploader("Upload a file", accept_multiple_files=False)
+log_file = st.file_uploader("Upload a file", accept_multiple_files=False, d)
 
 if log_file is None:
     file = "./Logs/smartfox.log"
