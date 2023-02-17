@@ -104,7 +104,7 @@ stuckGames = {}
 basetime = "00:00:08,500"
 timeDelta =  datetime.strptime(basetime, "%H:%M:%S,%f") - datetime.strptime("00:00:00,100", "%H:%M:%S,%f")
 
-timeDiff = datetime.strptime("00:00:30,500", "%H:%M:%S,%f") - datetime.strptime("00:00:00,100", "%H:%M:%S,%f")
+timeDiff = datetime.strptime("00:01:30,500", "%H:%M:%S,%f") - datetime.strptime("00:00:00,100", "%H:%M:%S,%f")
 
 
 prev_line = None
