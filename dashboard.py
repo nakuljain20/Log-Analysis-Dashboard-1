@@ -30,6 +30,7 @@ if log_file is not None:
     for line in log_file:
         lines.append(line)
 
+
 roomdetailsDict = {}
 userNameRoomList = []
 logEndTime = ""
@@ -99,7 +100,7 @@ turnCountDict = {}
 userGoneHandlerDict = {}
 appPauseFlag = {}
 stuckGames = {}
-
+botGameDict = {}
 
 basetime = "00:00:08,500"
 timeDelta =  datetime.strptime(basetime, "%H:%M:%S,%f") - datetime.strptime("00:00:00,100", "%H:%M:%S,%f")
@@ -111,13 +112,19 @@ prev_line = None
 for line in lines:
     line = line.decode()
     roomName = ""
+
+    if "bot" in line:
+        roomName = line.split("Room_name: ", 1)[1].split(";")[0]
+        botGameDict[roomName] = True
+
     if "SFS_PlayerId: 1" in line and "Request Message: ready" in line:
         roomName = line.split("Room_name: ", 1)[1].split(";")[0]
         time = line.split(" | ")[1]
         time = datetime.strptime(time, "%H:%M:%S,%f")
         EndTime = datetime.strptime(logEndTime, "%H:%M:%S,%f")
-
+        
         if EndTime - time > timeDiff:
+            # print(EndTime, " time: ", time, " timeDiff: ", timeDiff)
             if roomName not in roomNamesList:
                 roomNamesList.append(roomName)
 
@@ -260,6 +267,11 @@ for turnCount in range(1, 11):
         else:
             timeDelayDict[roomName].update({"timeOutDelay" : "--"})
 
+        if roomName in botGameDict:
+            timeDelayDict[roomName].update({"botGame" : True})
+        else:
+            timeDelayDict[roomName].update({"botGame" : False})
+
         if roomName in appPauseFlag and turnCount in appPauseFlag[roomName]:
             timeDelayDict[roomName].update({"appPaused" : appPauseFlag[roomName][turnCount]})
         else:
@@ -335,6 +347,7 @@ for turnCount in turnCountDict:
 
 
 turnCountList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
 # turnCountList = [1]
 serverHealthPercent = 100 - ((checkIndexStriker + checkIndexSwitchTurn + checkIndexTimeout)/(totalIndexStiker + totalIndexSwitchTurn + totalIndexTimeout) *  100)
 
@@ -355,7 +368,7 @@ columnName = ["User Gone Games", "Stuck Games", "Not Ended Games"]
 value = [userGoneGames, stuckGames, notEndGames]
 
 chart_data = pd.DataFrame({'index' : columnName, 'number of games' : value}).set_index('index')
-st.bar_chart(chart_data)
+st.bar_chart(chart_data, use_container_width=True)
 
 st.write(chart_data)
 
