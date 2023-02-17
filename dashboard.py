@@ -113,7 +113,7 @@ for line in lines:
     line = line.decode()
     roomName = ""
 
-    if "bot" in line:
+    if "Room_name" in line and "bot" in line:
         roomName = line.split("Room_name: ", 1)[1].split(";")[0]
         botGameDict[roomName] = True
 
