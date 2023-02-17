@@ -30,24 +30,10 @@ if log_file is not None:
     for line in log_file:
         lines.append(line)
 
-    # # To convert to a string based IO:
-    # stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-    # st.write(stringio)
-
-    # To read file as string:
-    
-    # st.write(string_data)
-
-    # Can be used wherever a "file-like" object is accepted:
-    # dataframe = pd.read_(uploaded_file)
-    # st.write(dataframe)
-    # data = json.loads(bytes_data)
-    # st.write(data)
-
-    # st.table(data)
-
 roomdetailsDict = {}
 userNameRoomList = []
+logEndTime = ""
+
 for line in lines:
     line = line.decode()
     if "Room_name: " in line:
@@ -62,6 +48,8 @@ for line in lines:
         if roomName not in userNameRoomList:
             userNameRoomList.append(roomName + " | userRating: " + userRating)
 
+    if "INFO" in line:
+        logEndTime = line.split(" | ")[1]
 
 select = st.selectbox("Select room name: ", userNameRoomList)
 if select: 
@@ -113,17 +101,25 @@ appPauseFlag = {}
 stuckGames = {}
 
 
-
 basetime = "00:00:08,500"
 timeDelta =  datetime.strptime(basetime, "%H:%M:%S,%f") - datetime.strptime("00:00:00,100", "%H:%M:%S,%f")
+
+timeDiff = datetime.strptime("00:00:30,500", "%H:%M:%S,%f") - datetime.strptime("00:00:00,100", "%H:%M:%S,%f")
+
+
 prev_line = None
 for line in lines:
     line = line.decode()
     roomName = ""
     if "SFS_PlayerId: 1" in line and "Request Message: ready" in line:
         roomName = line.split("Room_name: ", 1)[1].split(";")[0]
-        if roomName not in roomNamesList:
-            roomNamesList.append(roomName)
+        time = line.split(" | ")[1]
+        time = datetime.strptime(time, "%H:%M:%S,%f")
+        EndTime = datetime.strptime(logEndTime, "%H:%M:%S,%f")
+
+        if EndTime - time > timeDiff:
+            if roomName not in roomNamesList:
+                roomNamesList.append(roomName)
 
     if ("SFS_PlayerId: 1" in line or "SFS_PlayerId: 2" in line) and "Response Message: switch_turn" in line:
         roomName = line.split("Room_name: ", 1)[1].split(";")[0]
@@ -343,9 +339,6 @@ turnCountList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 serverHealthPercent = 100 - ((checkIndexStriker + checkIndexSwitchTurn + checkIndexTimeout)/(totalIndexStiker + totalIndexSwitchTurn + totalIndexTimeout) *  100)
 
 st.title("Server Health: " + str(serverHealthPercent) + "%")
-
-
-
 
 st.write(" Possible Events ")
 
